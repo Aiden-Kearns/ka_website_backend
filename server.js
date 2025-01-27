@@ -29,9 +29,19 @@ app.use(cookieParser());
 //Middleware that allows access to static content (images or light css etc...)
 app.use('/', express.static(path.join(__dirname, '/public')));
 
+//Root Route
 app.use('/', require('./routes/root'));
 
+//Auth Route
+app.use('/auth', require('./routes/authRoutes'));
+//Users Route
 app.use('/users', require('./routes/userRoutes.js'));
+
+//Teams Route
+app.use('/teams', require('./routes/teamRoutes.js'));
+
+//Actives Route
+app.use('/actives', require('./routes/activeRoutes.js'));
 
 app.all('*', (req, res) => {
     res.status(404);
@@ -55,4 +65,4 @@ mongoose.connection.on('error', err => {
 });
     
     console.log(`Server started at http://localhost:${PORT}`);
-});
+}); 

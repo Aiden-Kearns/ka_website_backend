@@ -18,7 +18,6 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-
     roles: [{
         type: String,
         required: true
@@ -30,6 +29,10 @@ const userSchema = mongoose.Schema({
     pledgeClass: {
         type: String,
         required: true
+    },
+    active: {
+        type: Boolean,
+        default: true
     }
 },
 {

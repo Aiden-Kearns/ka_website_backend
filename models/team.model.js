@@ -11,11 +11,11 @@ const teamSchema = mongoose.Schema({
         ref: 'Active'
     }],
     gpa: {
-        type: Number
+        type: Number,
+        default: null
     },
     isActive: {
-        type: Boolean,
-        required: true
+        type: Boolean
     }
 },
 {

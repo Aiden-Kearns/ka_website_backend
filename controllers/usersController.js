@@ -13,7 +13,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
     if (!users?.length) {
         return res.status(400).json({message: "No users found"});
     }
-     return res.json(users);
+    return res.json(users);
 });
 
 //@desc Create new user
@@ -55,10 +55,10 @@ const createNewUser = asyncHandler(async (req, res) => {
 //@route PATCH /users
 //@access Private
 const updateUser = asyncHandler(async (req, res) => {
-    const { name, password, email, phoneNumber, memberStatus, roles, id, pledgeClass } = req.body;
+    const { name, password, email, phoneNumber, memberStatus, roles, id, pledgeClass, active } = req.body;
 
     //Confirm data
-    if(!name || !email || !phoneNumber || !memberStatus || !Array.isArray(roles) || !roles.length || !id || !pledgeClass) {
+    if(!name || !email || !phoneNumber || !memberStatus || !Array.isArray(roles) || !roles.length || !id || !pledgeClass || typeof active !== 'boolean') {
         return res.status(400).json({message: "All fields are required"});
     }
 
@@ -85,6 +85,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.memberStatus = memberStatus;
     user.pledgeClass = pledgeClass;
     user.phoneNumber = phoneNumber;
+    user.active = active;
 
     //Change passwd only if provided
     if (password) {
@@ -111,18 +112,6 @@ const deleteUser = asyncHandler(async (req, res) => {
     const active = await Active.findOne( {user: id }).lean().exec();
     if (active) {
         return res.status(400).json( {message: "User is an Active"} )
-    }
-
-    //Check if user is enrolled in one or more classes
-    const classes = await Class.find( {activesEnrolled: id} ).lean().exec();
-    if (classes?.length) {
-        return res.status(400).json( {message: "User is enrolled in one or more classes  "})
-    }
-
-    //Check if user is enrolled in a team
-    const team = await Team.findOne({ members: id }).lean().exec();
-    if(team) {
-        return res.status(400).json({ message: "User is enrolled in one or more teams" });
     }
 
     const user = await User.findById(id).exec();

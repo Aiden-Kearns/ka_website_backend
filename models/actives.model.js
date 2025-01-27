@@ -21,8 +21,8 @@ const activeSchema = mongoose.Schema({
         type: String,
         required: true
     }, 
-    pledgeClass: {
-        type: String,
+    roles: {
+        type: Array,
         required: true
     },
     team_number: {
@@ -34,13 +34,15 @@ const activeSchema = mongoose.Schema({
     }],
     inHouse: {
         type: Boolean,
-        required: true
     },
     address: {
         type: String,
         required: function() {
-            return this.inHouse == true;
+            return this.inHouse == false;
         }
+    },
+    api_key: {
+        type: String,
     }
 
 },
