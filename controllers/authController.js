@@ -36,7 +36,7 @@ const login = asyncHandler(async (req, res) => {
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '1m'}
+        { expiresIn: '24h'}//24 hours make sure to change
     )
 
     //Create JWT refresh token
@@ -62,7 +62,7 @@ const login = asyncHandler(async (req, res) => {
  })
 
 //@desc Refresh
-//@route Geth /auth/refresh
+//@route Get /auth/refresh
 //@access Public -token has expired
 const refresh = (req, res) => {
     const cookies = req.cookies;

@@ -1,7 +1,16 @@
 const mongoose = require('mongoose');
 
 const classSchema = mongoose.Schema({
-    name: {
+    activeIds: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Active'
+    }],
+    courseId: {
+        type: String,
+        required: true,
+    },
+    title: {
         type: String,
         required: true
     },
@@ -9,19 +18,7 @@ const classSchema = mongoose.Schema({
         type: Boolean,
         required: true
     },
-    classNumber: { //Ex. 1214, 2222, 3104 etc...
-        type: Number,
-        required: true
-    },
-    department: { //Ex. Math, Comp Eng, Mech Eng, Eng etc...
-        type: String,
-        required: true
-    },
-    activesEnrolled: [{
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Active'
-    }]
+
 },
 {
     timestamps: true

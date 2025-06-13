@@ -1,18 +1,8 @@
 const mongoose = require('mongoose');
 
-const classGradeSchema = mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    grade: {
-        type: String,
-        required: true
-    }
-})
 
 const activeSchema = mongoose.Schema({
-    user: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
@@ -25,10 +15,7 @@ const activeSchema = mongoose.Schema({
         type: Array,
         required: true
     },
-    team_number: {
-        type: Number
-    },
-    classes: [{
+    classIds: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Class'
     }],

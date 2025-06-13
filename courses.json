@@ -1,0 +1,310 @@
+{
+  "data": {
+    "allCourses": [
+      {
+        "_id": "197349",
+        "name": "2023FS-CHEM-1100-5100_LAB_SAFETY",
+        "courseNickname": null,
+        "term": {
+          "name": "2023 Fall Semester"
+        }
+      },
+      {
+        "_id": "207195",
+        "name": "2023FS-COMP_SCI-1500-101",
+        "courseNickname": null,
+        "term": {
+          "name": "2023 Fall Semester"
+        }
+      },
+      {
+        "_id": "207196",
+        "name": "2023FS-COMP_SCI-1500-301",
+        "courseNickname": null,
+        "term": {
+          "name": "2023 Fall Semester"
+        }
+      },
+      {
+        "_id": "195921",
+        "name": "2023FS-ECON-1200-104",
+        "courseNickname": null,
+        "term": {
+          "name": "2023 Fall Semester"
+        }
+      },
+      {
+        "_id": "196325",
+        "name": "2023FS-FR_ENG-1100-SECTIONS_101_THRU_110",
+        "courseNickname": null,
+        "term": {
+          "name": "2023 Fall Semester"
+        }
+      },
+      {
+        "_id": "205335",
+        "name": "2023FS-FRENCH-1102-101",
+        "courseNickname": null,
+        "term": {
+          "name": "2023 Fall Semester"
+        }
+      },
+      {
+        "_id": "197197",
+        "name": "2023FS-MATH-1214-FALL_2023",
+        "courseNickname": null,
+        "term": {
+          "name": "2023 Fall Semester"
+        }
+      },
+      {
+        "_id": "196848",
+        "name": "2023FS-MISC-HONORS-201",
+        "courseNickname": null,
+        "term": {
+          "name": "2023 Fall Semester"
+        }
+      },
+      {
+        "_id": "270180",
+        "name": "2024FS-CHEM-1310-ALL_SECTIONS",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Fall Semester"
+        }
+      },
+      {
+        "_id": "270249",
+        "name": "2024FS-CHEM-1319-301_TO_322",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Fall Semester"
+        }
+      },
+      {
+        "_id": "272264",
+        "name": "2024FS-COMP_ENG-2210-108",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Fall Semester"
+        }
+      },
+      {
+        "_id": "272011",
+        "name": "2024FS-COMP_ENG-2211-315",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Fall Semester"
+        }
+      },
+      {
+        "_id": "271729",
+        "name": "2024FS-COMP_SCI-1575-101",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Fall Semester"
+        }
+      },
+      {
+        "_id": "271377",
+        "name": "2024FS-MATH-2222-1C",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Fall Semester"
+        }
+      },
+      {
+        "_id": "271379",
+        "name": "2024FS-MATH-2222-ALL_LABS",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Fall Semester"
+        }
+      },
+      {
+        "_id": "210209",
+        "name": "2024SP-COMP_SCI-1570-102",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Spring Semester"
+        }
+      },
+      {
+        "_id": "210196",
+        "name": "2024SP-COMP_SCI-1580-308",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Spring Semester"
+        }
+      },
+      {
+        "_id": "209265",
+        "name": "2024SP-HISTORY-1200-102",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Spring Semester"
+        }
+      },
+      {
+        "_id": "209091",
+        "name": "2024SP-MATH-1215-1A_1B_1C",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Spring Semester"
+        }
+      },
+      {
+        "_id": "209100",
+        "name": "2024SP-MATH-1215-301",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Spring Semester"
+        }
+      },
+      {
+        "_id": "210395",
+        "name": "2024SP-MISC-HONORS-202",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Spring Semester"
+        }
+      },
+      {
+        "_id": "208280",
+        "name": "2024SP-PHYSICS-1135-3L08",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Spring Semester"
+        }
+      },
+      {
+        "_id": "208701",
+        "name": "2024SP-PHYSICS-1135-203",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Spring Semester"
+        }
+      },
+      {
+        "_id": "208678",
+        "name": "2024SP-PHYSICS-1135-LECTURES",
+        "courseNickname": null,
+        "term": {
+          "name": "2024 Spring Semester"
+        }
+      },
+      {
+        "_id": "287053",
+        "name": "2025SP-COMP_ENG-3150-102",
+        "courseNickname": null,
+        "term": {
+          "name": "2025 Spring Semester"
+        }
+      },
+      {
+        "_id": "287683",
+        "name": "2025SP-COMP_ENG-3151-305",
+        "courseNickname": null,
+        "term": {
+          "name": "2025 Spring Semester"
+        }
+      },
+      {
+        "_id": "287342",
+        "name": "2025SP-ELEC_ENG-2100-103",
+        "courseNickname": null,
+        "term": {
+          "name": "2025 Spring Semester"
+        }
+      },
+      {
+        "_id": "286720",
+        "name": "2025SP-ELEC_ENG-2101-305",
+        "courseNickname": null,
+        "term": {
+          "name": "2025 Spring Semester"
+        }
+      },
+      {
+        "_id": "287062",
+        "name": "2025SP-MATH-3304-101",
+        "courseNickname": null,
+        "term": {
+          "name": "2025 Spring Semester"
+        }
+      },
+      {
+        "_id": "287593",
+        "name": "2025SP-PHYSICS-2135-3L01",
+        "courseNickname": null,
+        "term": {
+          "name": "2025 Spring Semester"
+        }
+      },
+      {
+        "_id": "286124",
+        "name": "2025SP-PHYSICS-2135-LECTURE",
+        "courseNickname": null,
+        "term": {
+          "name": "2025 Spring Semester"
+        }
+      },
+      {
+        "_id": "315114",
+        "name": "CHEMISTRY_1310_PREP_FS2024",
+        "courseNickname": null,
+        "term": {
+          "name": "Non-Credit"
+        }
+      },
+      {
+        "_id": "77978",
+        "name": "Missouri Civics Exam",
+        "courseNickname": null,
+        "term": {
+          "name": "Non-Credit"
+        }
+      },
+      {
+        "_id": "78184",
+        "name": "Missouri S&T Honors Academy",
+        "courseNickname": null,
+        "term": {
+          "name": "Organizations"
+        }
+      },
+      {
+        "_id": "287834",
+        "name": "2025SP-PHYSICS-2135-205",
+        "courseNickname": "Physics 2135 Recitation",
+        "term": {
+          "name": "2025 Spring Semester"
+        }
+      },
+      {
+        "_id": "99035",
+        "name": "ROLLA-NONCREDIT-CAMPUS_EMERGENCY_ALERT_TRAINING",
+        "courseNickname": null,
+        "term": {
+          "name": "Non-Credit"
+        }
+      },
+      {
+        "_id": "74368",
+        "name": "RSS Intro to Supercomputing",
+        "courseNickname": null,
+        "term": {
+          "name": "Non-Credit"
+        }
+      },
+      {
+        "_id": "121381",
+        "name": "S&T Fall 2023 Math Placement Exams - Freshmen A-L",
+        "courseNickname": null,
+        "term": {
+          "name": "Non-Credit"
+        }
+      }
+    ]
+  }
+}

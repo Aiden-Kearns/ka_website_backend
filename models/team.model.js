@@ -5,7 +5,7 @@ const teamSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    members: [{
+    memberIds: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Active'
