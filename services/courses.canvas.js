@@ -1,5 +1,5 @@
 const axios = require('axios');
-//const fs = require('fs');
+const fs = require('fs');
 
 
 
@@ -19,20 +19,22 @@ const data = {
 };
 
 const getCourses = async (token) => {
+    console.log(token);
     try {
-        const response = await axios.post((`${process.env.CANVAS_URL}/api/graphql`), data,{
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        console.log(response.data);
-
-        //fs.writeFileSync('courses.json', JSON.stringify(response.data, null, 2), 'utf8');
-
-        return response.data;
-    } catch (err) {
-        console.error('Error fetching courses from Canvas');
-        throw err;
+        const courses = await axios.get(`${process.env.CANVAS_URL}/api/v1/courses`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        params: {
+            include: ['total_scores']
+        }});
+        return courses.data;
+        console.log(courses.data);
+        fs.writeFileSync('grades.json', JSON.stringify(courses.data, null, 2), 'utf8');
+    }
+    catch (err) {
+    console.error('Error fetching all courses from Canvas');
+    throw err;
     }
 }
 

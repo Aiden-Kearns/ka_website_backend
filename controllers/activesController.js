@@ -22,7 +22,7 @@ const getAllActives = asyncHandler(async (req, res) => {
 //@access Private
 const createNewActive = asyncHandler(async (req, res) => {
     const { userId, schoolYear, team_number, classes, inHouse, address, roles, api_key } = req.body;
-
+    console.log(userId, inHouse);
     //Confirm Data
     if (!userId ||!schoolYear || inHouse == null || !Array.isArray(roles) || !roles.length || !api_key) {
         return res.status(400).json({message: "All fields are required"});
@@ -32,12 +32,6 @@ const createNewActive = asyncHandler(async (req, res) => {
     const userExists = await User.findById(userId).lean().exec();
     if (!userExists) {
         return res.status(400).json({ message: "UserId not found"});
-    }
-
-    //Is userId already tied to an active
-    const checkUserReference = await Active.findById(userId);
-    if (checkUserReference) {
-        return res.status(409).json({ message: "UserId is already associated with an Active "});
     }
 
     //Check if inHouse
@@ -71,12 +65,12 @@ const createNewActive = asyncHandler(async (req, res) => {
 //@route PATCH /actives
 //@access Private
 const updateActive = asyncHandler(async (req, res) => {
-    const { activeIdString, userIdString, schoolYear, roles, team_number, classes, inHouse, address, api_key } = req.body;
+    const { activeId, userId, schoolYear, roles, team_number, classes, inHouse, address, api_key } = req.body;
 
-    console.log(activeIdString, userIdString, schoolYear);
+    console.log(activeId, userId, schoolYear);
 
     //Confirm data
-    if(!activeIdString || !userIdString || !schoolYear || inHouse == null || !Array.isArray(roles) || !roles.length ) {
+    if(!activeId || !userId || !schoolYear || inHouse == null || !Array.isArray(roles) || !roles.length ) {
         return res.status(400).json({message: "All fields are required"});
     }
     //Check if inHouse
@@ -84,19 +78,14 @@ const updateActive = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "Must provide an address as an Out-of-House Active"})
     }
 
-    const activeId = new mongoose.Types.ObjectId(`${activeIdString}`);
-    const userId = new mongoose.Types.ObjectId(`${userIdString}`);
-
-    //const userId = "123456"
-
-    const active = await Active.findById(activeIdString).exec();
+    const active = await Active.findById(activeId).exec();
 
     if (!active) {
         return res.status(400).json({message: "Active not found"});
     }
 
     //Check for duplicate name or email
-    const duplicateActive = await Active.findById(userIdString).lean().exec();
+    const duplicateActive = await Active.findById(userId).lean().exec();
     
     if (duplicateActive && duplicateActive?._id.toString() !== activeId) {
         return res.status(409).json({ message: 'Dupilcate Active User'});
@@ -125,29 +114,30 @@ const updateActive = asyncHandler(async (req, res) => {
 });
 
 //@desc Delete an active
-//@route DELETE /active
+//@route DELETE /actives
 //@access Private
 const deleteActive = asyncHandler(async (req, res) => {
-    const { activeIdString } = req.body;
+    const { activeId } = req.body;
+    console.log(activeId);
 
-    if(!activeIdString) {
+    if(!activeId) {
         return res.status(400).json({message: "Active ID is required"})
     }
 
     //Check if user is enrolled in a team
-    const team = await Team.findOne({ members: id }).lean().exec();
-    if(team) {
+    const inTeam = await Team.findOne({ activeIds: activeId }).lean().exec();
+    if(inTeam) {
         return res.status(400).json({ message: "Active is enrolled in one or more teams" });
     }
 
     //Check if user is enrolled in one or more classes
-    const classes = await Class.find( {activesEnrolled: id} ).lean().exec();
-    if (classes?.length) {
+    const inClasses = await Class.findOne( {activeIds: activeId} ).lean().exec();
+    if (inClasses) {
         return res.status(400).json( {message: "Active is enrolled in one or more classes  "})
     }
 
 
-    const active = await Active.findById(activeIdString).exec();
+    const active = await Active.findById(activeId).exec();
 
     if (!active) {
         return res.status(400).json( {message: "Active not found"} );

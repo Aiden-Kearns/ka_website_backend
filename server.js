@@ -43,6 +43,9 @@ app.use('/teams', require('./routes/teamRoutes.js'));
 //Actives Route
 app.use('/actives', require('./routes/activeRoutes.js'));
 
+//Class Routes
+app.use('/classes', require('./routes/classRoutes.js'));
+
 app.all('*', (req, res) => {
     res.status(404);
     if (req.accepts('html')) {
