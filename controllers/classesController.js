@@ -1,7 +1,8 @@
 const Class = require('../models/classes.model');
 const Active = require('../models/actives.model');
-const getCourses = require('../services/courses.canvas');
+const { getFilteredCompletedCourses, getFilteredActiveCourses } = require('../services/classesService');
 const asyncHandler = require('express-async-handler');
+const fs = require('fs');
 
 // @desc Get all classes
 // @route GET /classes
@@ -43,38 +44,54 @@ const upsertClasses = asyncHandler(async (req, res) => {
     }
 
     //Update Classes from Canvas
-    const courses = await getCourses(api_key);
+    const completedCourses = await getFilteredCompletedCourses(api_key);
+    const activeCourses = await getFilteredActiveCourses(api_key);
+    //fs.writeFileSync('grades.json', JSON.stringify(courses, null, 2), 'utf8');
 
-    if (!courses) {
+
+    if (!completedCourses || !activeCourses) {
         return res.status(500).json({ message: "Failed to get course data from Canvas"});
     }
-    console.log(courses);
 
     //Update Classes in Database
-
-        const coursesData = courses.map(course => ({
-            courseId: course.id,
-            title: course.name,
-            activeIds: [activeId],
-            isGradedClass: true
-            
+    try {
+        const bulkUpdateCompletedCourses = completedCourses.map(completedCourse => ({
+            updateOne: {
+                filter: { courseId: completedCourse.id},
+                update: {
+                    $set: {
+                        courseId: completedCourse.id,
+                        title: completedCourse.name,
+                        activeIds: [activeId],
+                        isActiveClass: false
+                    }
+                },
+                upsert: true
+            }
         }));
 
-    console.log(coursesData);
+        await Class.bulkWrite(bulkUpdateCompletedCourses, { ordered: false});
 
-    try {
-        const savePromises = coursesData.map(course =>
-            Class.findOneAndUpdate(
-                { courseId: course.courseId },
-                { $set: course },
-                { upsert: true, new: true, setDefaultsOnInsert: true }
+        const bulkUpdateActiveCourses = activeCourses.map(activeCourse => ({
+            updateOne: {
+                filter: { courseId: activeCourse.id},
+                update: {
+                    $set: {
+                        courseId: activeCourse.id,
+                        title: activeCourse.name,
+                        activeIds: [activeId],
+                        isActiveClass: true
+                    }
+                },
+                upsert: true
+            }
+        }));
 
-            )
-        );
+        await Class.bulkWrite(bulkUpdateActiveCourses, { ordered: false});
 
-        await Promise.all(savePromises);
+
     } catch (err) {
-        return res.status(500).json({ message: "Internal Server Error" });
+        return res.status(500).json({ message: "Error updating courses" });
     }
 
 
@@ -82,6 +99,8 @@ const upsertClasses = asyncHandler(async (req, res) => {
 
     
 });
+
+
 
 module.exports = {
     getAllClasses,

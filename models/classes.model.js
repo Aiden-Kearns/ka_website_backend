@@ -14,7 +14,7 @@ const classSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    isGradedClass: { //To determine if the class is an extracirular or does not count toward GPA
+    isActiveClass: { //To determine if the class is an extracirular or does not count toward GPA
         type: Boolean,
         required: true
     },
