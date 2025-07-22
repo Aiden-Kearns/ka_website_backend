@@ -17,7 +17,7 @@ const getCompletedCourses = async (token) => {
         return courses.data;
     }
     catch (err) {
-    console.error('Error fetching all courses from Canvas');
+    console.error('Error fetching completed courses from Canvas', err.message);
     throw err;
     }
 }
@@ -36,7 +36,7 @@ const getActiveCourses = async (token) => {
         return courses.data;
     }
     catch (err) {
-    console.error('Error fetching active courses from Canvas');
+    console.error('Error fetching active courses from Canvas', err.message);
     throw err;
     }
 }
