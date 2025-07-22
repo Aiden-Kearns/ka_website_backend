@@ -9,7 +9,7 @@ jest.mock('axios');
 describe('Classes Client Tests', () => {
 
     //Happy path for Completed Courses
-    test('should fetch completed courses data', async () => {
+    test('getCompletedCourses Happy Path', async () => {
         axios.get.mockResolvedValue({ data: mockCoursesResponse});
 
         const result = await getCompletedCourses('fake-token');
@@ -17,7 +17,7 @@ describe('Classes Client Tests', () => {
     });
 
     //Sad path for completed courses
-    test('should log and rethrow error when completed courses API call fails', async () => {
+    test('getCompletedCourses Sad Path', async () => {
         const mockError = new Error('API is down');
         axios.get.mockRejectedValue(mockError);
 
@@ -34,7 +34,7 @@ describe('Classes Client Tests', () => {
     });
 
     //Happy path for Active Courses
-    test('should fetch active courses data', async () => {
+    test('getActiveCourses Happy Path', async () => {
         axios.get.mockResolvedValue({ data: mockCoursesResponse});
 
         const result = await getActiveCourses('fake-token');
@@ -42,7 +42,7 @@ describe('Classes Client Tests', () => {
     });
 
     //Sad path for active courses
-    test('should log and rethrow error when active courses API call fails', async () => {
+    test('getActiveCourses Sad Path', async () => {
         const mockError = new Error('API is down');
         axios.get.mockRejectedValue(mockError);
 

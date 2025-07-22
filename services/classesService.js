@@ -8,7 +8,7 @@ const getFilteredCompletedCourses = async (token) => {
         return filteredCompletedCourses;
     }
     catch (err) {
-        console.error('Error filtering Completed Courses from Canvas');
+        console.error('Error filtering Completed Courses from Canvas', err.message);
         throw err;
     }
 }
@@ -20,7 +20,7 @@ const getFilteredActiveCourses = async (token) => {
         return filteredActiveCourses;
     }
     catch (err) {
-        console.error('Error filtering Active Courses from Canvas');
+        console.error('Error filtering Active Courses from Canvas', err.message);
         throw err;
     }
 }

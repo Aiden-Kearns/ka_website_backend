@@ -2,7 +2,7 @@ const Class = require('../models/classes.model');
 const Active = require('../models/actives.model');
 const { getFilteredCompletedCourses, getFilteredActiveCourses } = require('../services/classesService');
 const asyncHandler = require('express-async-handler');
-const fs = require('fs');
+//const fs = require('fs');
 
 // @desc Get all classes
 // @route GET /classes
