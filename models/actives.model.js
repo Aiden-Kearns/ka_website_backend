@@ -21,6 +21,7 @@ const activeSchema = mongoose.Schema({
     }],
     inHouse: {
         type: Boolean,
+        required: true
     },
     address: {
         type: String,
@@ -30,6 +31,11 @@ const activeSchema = mongoose.Schema({
     },
     api_key: {
         type: String,
+        required: true
+    },
+    iv: {
+        type: String,
+        required: true
     }
 
 },

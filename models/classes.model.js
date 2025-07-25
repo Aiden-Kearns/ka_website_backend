@@ -14,10 +14,14 @@ const classSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    isActiveClass: { //To determine if the class is an extracirular or does not count toward GPA
-        type: Boolean,
+    term: {
+        type: String,
         required: true
     },
+    section: {
+        type: Number,
+        required: true
+    }
 
 },
 {

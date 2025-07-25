@@ -1,7 +1,8 @@
 const Class = require('../models/classes.model');
 const Active = require('../models/actives.model');
-const { getFilteredCompletedCourses, getFilteredActiveCourses } = require('../services/classesService');
+const { getFilteredCourses } = require('../services/classesService');
 const asyncHandler = require('express-async-handler');
+const { decrypt } = require('../services/encryptionService');
 //const fs = require('fs');
 
 // @desc Get all classes
@@ -33,73 +34,61 @@ const getActivesClasses = asyncHandler(async (req, res) => {
 //@route POST /classes
 //@access Private
 const upsertClasses = asyncHandler(async (req, res) => {
-    const { activeId, api_key } = req.body;
-    if (!activeId || !api_key) {
-        return res.status(400).json({ message: "Active ID and API Key are required"});
-    }
-    //Check if user exists
-    const active = await Active.findById(activeId).lean().exec();
-    if (!active) {
-        return res.status(400).json({ message: "Active does not exist"});
-    }
+    //Check and Convert to an array as needed
+    const requests = Array.isArray(req.body) ? req.body : [req.body];
 
-    //Update Classes from Canvas
-    const completedCourses = await getFilteredCompletedCourses(api_key);
-    const activeCourses = await getFilteredActiveCourses(api_key);
-    //fs.writeFileSync('grades.json', JSON.stringify(courses, null, 2), 'utf8');
-
-
-    if (!completedCourses || !activeCourses) {
-        return res.status(500).json({ message: "Failed to get course data from Canvas"});
+    //Validate all requests
+    for (const request of requests) {
+        if (!request.activeId || !request.api_key || !request.iv) {
+            return res.status(400).json({ message: "Each request must have an activeId, api_key, and iv"})
+        }
     }
 
-    //Update Classes in Database
-    try {
-        const bulkUpdateCompletedCourses = completedCourses.map(completedCourse => ({
-            updateOne: {
-                filter: { courseId: completedCourse.id},
-                update: {
-                    $set: {
-                        courseId: completedCourse.id,
-                        title: completedCourse.name,
-                        activeIds: [activeId],
-                        isActiveClass: false
-                    }
-                },
-                upsert: true
-            }
+    await Promise.all(requests.map(async (request) => {
+        //Check if active exists
+        const active = await Active.findById(request.activeId).lean().exec();
+        if (!active) {
+            return new Error(`Active does not exist: ${request.activeId}`);
+        }
+
+        //Decrypt API Key
+        const decryptedApiKey = decrypt(request.api_key, request.iv);
+
+        //Get Filtered Courses for every API Key
+        const courses = await getFilteredCourses(decryptedApiKey);
+
+        if (!courses) {
+            throw new Error(`Failed to get course data from Canvas Service for Active ${request.activeId}`);
+        }
+        //Update Classes in Database
+
+        const bulkUpdateCourses = courses.map(course => {
+            return {
+                updateOne: {
+                    filter: { courseId: course.id },
+                    update: {
+                        $set: {
+                            courseId: course.id,
+                            title: course.name,
+                            term: course.term,
+                            section: course.section
+                        },
+                        $addToSet: {
+                            activeIds: request.activeId
+                        }
+                    },
+                    upsert: true
+                }
+            };
+        });
+
+        await Class.bulkWrite(bulkUpdateCourses, { ordered: false});
+
         }));
-
-        await Class.bulkWrite(bulkUpdateCompletedCourses, { ordered: false});
-
-        const bulkUpdateActiveCourses = activeCourses.map(activeCourse => ({
-            updateOne: {
-                filter: { courseId: activeCourse.id},
-                update: {
-                    $set: {
-                        courseId: activeCourse.id,
-                        title: activeCourse.name,
-                        activeIds: [activeId],
-                        isActiveClass: true
-                    }
-                },
-                upsert: true
-            }
-        }));
-
-        await Class.bulkWrite(bulkUpdateActiveCourses, { ordered: false});
-
-
-    } catch (err) {
-        return res.status(500).json({ message: "Error updating courses" });
-    }
-
 
     return res.status(200).json({ message: "Courses Updated" });
 
-    
 });
-
 
 
 module.exports = {

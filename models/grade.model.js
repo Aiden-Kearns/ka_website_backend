@@ -11,20 +11,23 @@ const gradeSchema = mongoose.Schema({
         required: true,
         ref: 'Class'
     },
-    courseId: {
+    currentScore: {
         type: Number,
         required: true
     },
-    grades: {
-        currentScore: {
-            type: Number,
-            required: true
-        },
-        finalScore: {
-            type: Number,
-            required: true
-        }
+    finalScore: {
+        type: Number,
+        required: true
+    },
+    currentLetterGrade: {
+        type: String,
+        required: true
+    },
+    finalLetterGrade: {
+        type: String,
+        required: true
     }
+
 });
 
 const Grade = mongoose.model('Grade', gradeSchema);

@@ -5,6 +5,7 @@ const Active = require('../models/actives.model.js');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt'); 
 const { default: mongoose } = require('mongoose');
+const { encrypt } = require('../services/encryptionService.js');
 
 //@desc Get all actives
 //@route GET /actives
@@ -22,7 +23,6 @@ const getAllActives = asyncHandler(async (req, res) => {
 //@access Private
 const createNewActive = asyncHandler(async (req, res) => {
     const { userId, schoolYear, team_number, classes, inHouse, address, roles, api_key } = req.body;
-    console.log(userId, inHouse);
     //Confirm Data
     if (!userId ||!schoolYear || inHouse == null || !Array.isArray(roles) || !roles.length || !api_key) {
         return res.status(400).json({message: "All fields are required"});
@@ -45,10 +45,9 @@ const createNewActive = asyncHandler(async (req, res) => {
         return res.status(409).json({message: "Duplicate Active User"});
     }
 
-    //Hash API Key
-    const hashedApiKey = await bcrypt.hash(api_key, 10); //10 salt rounds
-    
-    const activeObject = {userId, schoolYear, roles, team_number, classes, inHouse, address, "api_key": hashedApiKey};
+    const { encryptedData, iv } = encrypt(api_key);
+
+    const activeObject = {userId, schoolYear, roles, team_number, classes, inHouse, address, "api_key": encryptedData, iv};
 
     //Create and store user
     const active = await Active.create(activeObject);
@@ -66,8 +65,6 @@ const createNewActive = asyncHandler(async (req, res) => {
 //@access Private
 const updateActive = asyncHandler(async (req, res) => {
     const { activeId, userId, schoolYear, roles, team_number, classes, inHouse, address, api_key } = req.body;
-
-    console.log(activeId, userId, schoolYear);
 
     //Confirm data
     if(!activeId || !userId || !schoolYear || inHouse == null || !Array.isArray(roles) || !roles.length ) {
@@ -91,15 +88,16 @@ const updateActive = asyncHandler(async (req, res) => {
         return res.status(409).json({ message: 'Dupilcate Active User'});
     }
 
-    //Hash API Key if provided
+    //Encrypt API Key if provided
     if(api_key) {
-        active.api_key = await bcrypt.hash(api_key, 10); //10 salt rounds
+        const { encryptedData, iv } = encrypt(api_key);
+        active.api_key = encryptedData;
+        active.iv = iv;
     }
 
     if (classes) {
         active.classes = classes;
     }
-
 
     active.userId = userId;
     active.schoolYear = schoolYear;

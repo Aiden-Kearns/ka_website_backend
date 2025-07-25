@@ -23,7 +23,7 @@ const createNewUser = asyncHandler(async (req, res) => {
     const { name, password, email, phoneNumber, memberStatus, roles, pledgeClass } = req.body;
 
     //Confirm Data
-    if (!name || !password || !email || !phoneNumber || !memberStatus ||!Array.isArray(roles) || !roles.length || !pledgeClass) {
+    if (!name || !password || !email || !phoneNumber || !memberStatus || !Array.isArray(roles) || !roles.length || !pledgeClass) {
         return res.status(400).json({message: "All fields are required"});
     }
 
@@ -44,7 +44,7 @@ const createNewUser = asyncHandler(async (req, res) => {
     const user = await User.create(userObject);
 
     if(user) { //It was created
-        res.status(201).json({message: `New User: ${name}:${email} created`});
+        res.status(201).json({message: `New User: ${user._id} created`});
     } else {
         res.status(400).json({message: 'Invalid user data recieved'});
     }
@@ -87,7 +87,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.phoneNumber = phoneNumber;
     user.active = active;
 
-    //Change passwd only if provided
+    //Change password only if provided
     if (password) {
         //Hash password
         user.password = await bcrypt.hash(password, 10); //10 salt rounds

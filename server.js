@@ -59,7 +59,7 @@ app.all('*', (req, res) => {
 
 app.use(errorHandler);
 mongoose.connection.once('open', () => {
-    app.listen(PORT, process.env.HOST_URL || null, () => {
+    app.listen(process.env.PORT || null, () => {
 });
 
 mongoose.connection.on('error', err => {
@@ -67,5 +67,5 @@ mongoose.connection.on('error', err => {
     logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log');
 });
     
-    console.log(`Server started at http://localhost:${PORT}`);
+    console.log(`Server started at ${process.env.HOST_URL}`);
 }); 
