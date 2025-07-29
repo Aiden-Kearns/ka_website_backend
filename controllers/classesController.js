@@ -48,7 +48,7 @@ const upsertClasses = asyncHandler(async (req, res) => {
         //Check if active exists
         const active = await Active.findById(request.activeId).lean().exec();
         if (!active) {
-            return new Error(`Active does not exist: ${request.activeId}`);
+            throw new Error(`Active does not exist: ${request.activeId}`);
         }
 
         //Decrypt API Key

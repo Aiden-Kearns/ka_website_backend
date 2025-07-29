@@ -7,16 +7,17 @@ const getFilteredCourses = async (token) => {
         const filteredCourses = [];
         for(let i = 0; i < courses.length; i++) {
             const course = courses[i];
-            if(!course.name || !course.id || course.term.name == 'ORG' || course.term.name == 'NONCREDIT'){
+            if(!course.name || !course.id || course.term.name == 'Organizations' || course.term.name == 'Non-Credit'){
                 continue
             }
 
-            course.name = course.name.slice(7, -3)
+            course.name = course.name//TODO: Must use regex instead of slicing to get section and other stuff
             course.section = Number(course.name.slice(-3))
             course.term = course.term.name
 
             filteredCourses.push(course);
         }
+        console.log(filteredCourses)
         return filteredCourses;
     }
     catch (err) {

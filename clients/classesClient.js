@@ -47,7 +47,6 @@ const getCourses = async (token) => {
             per_page: 100
         }});
         //fs.writeFileSync('active_grades_REST.json', JSON.stringify(courses.data, null, 2), 'utf-8');
-        
         return courses.data;
     }
     catch (err) {

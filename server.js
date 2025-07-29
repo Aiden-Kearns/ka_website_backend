@@ -67,5 +67,5 @@ mongoose.connection.on('error', err => {
     logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log');
 });
     
-    console.log(`Server started at ${process.env.HOST_URL}`);
+    console.log(`Server started at http://localhost:3000`);
 }); 
