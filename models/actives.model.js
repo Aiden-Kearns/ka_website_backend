@@ -15,9 +15,9 @@ const activeSchema = mongoose.Schema({
         type: Array,
         required: true
     },
-    classIds: [{
+    courseIds: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Class'
+        ref: 'Course'
     }],
     inHouse: {
         type: Boolean,

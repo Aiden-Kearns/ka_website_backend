@@ -1,5 +1,5 @@
 const User = require('../models/users.model');
-const Class = require('../models/classes.model.js');
+const Course = require('../models/courses.model.js');
 const Team = require('../models/team.model.js');
 const Active = require('../models/actives.model.js');
 const asyncHandler = require('express-async-handler');
@@ -22,7 +22,7 @@ const getAllActives = asyncHandler(async (req, res) => {
 //@route POST /actives
 //@access Private
 const createNewActive = asyncHandler(async (req, res) => {
-    const { userId, schoolYear, team_number, classes, inHouse, address, roles, api_key } = req.body;
+    const { userId, schoolYear, team_number, courses, inHouse, address, roles, api_key } = req.body;
     //Confirm Data
     if (!userId ||!schoolYear || inHouse == null || !Array.isArray(roles) || !roles.length || !api_key) {
         return res.status(400).json({message: "All fields are required"});
@@ -47,13 +47,13 @@ const createNewActive = asyncHandler(async (req, res) => {
 
     const { encryptedData, iv } = encrypt(api_key);
 
-    const activeObject = {userId, schoolYear, roles, team_number, classes, inHouse, address, "api_key": encryptedData, iv};
+    const activeObject = {userId, schoolYear, roles, team_number, courses, inHouse, address, "api_key": encryptedData, iv};
 
     //Create and store user
     const active = await Active.create(activeObject);
 
     if(active) { //It was created
-        res.status(201).json({message: `New Active from user ${userId} created`});
+        res.status(201).json({message: `New Active ${active._id} created from User ${userId}`});
     } else {
         res.status(400).json({message: 'Invalid user data recieved'});
     }
@@ -64,7 +64,7 @@ const createNewActive = asyncHandler(async (req, res) => {
 //@route PATCH /actives
 //@access Private
 const updateActive = asyncHandler(async (req, res) => {
-    const { activeId, userId, schoolYear, roles, team_number, classes, inHouse, address, api_key } = req.body;
+    const { activeId, userId, schoolYear, roles, team_number, courses, inHouse, address, api_key } = req.body;
 
     //Confirm data
     if(!activeId || !userId || !schoolYear || inHouse == null || !Array.isArray(roles) || !roles.length ) {
@@ -95,8 +95,8 @@ const updateActive = asyncHandler(async (req, res) => {
         active.iv = iv;
     }
 
-    if (classes) {
-        active.classes = classes;
+    if (courses) {
+        active.courses = courses;
     }
 
     active.userId = userId;
@@ -128,10 +128,10 @@ const deleteActive = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "Active is enrolled in one or more teams" });
     }
 
-    //Check if user is enrolled in one or more classes
-    const inClasses = await Class.findOne( {activeIds: activeId} ).lean().exec();
-    if (inClasses) {
-        return res.status(400).json( {message: "Active is enrolled in one or more classes  "})
+    //Check if user is enrolled in one or more courses
+    const inCourses = await Course.findOne( {activeIds: activeId} ).lean().exec();
+    if (inCourses) {
+        return res.status(400).json( {message: "Active is enrolled in one or more Courses  "})
     }
 
 
@@ -153,5 +153,4 @@ module.exports = {
     createNewActive,
     updateActive,
     deleteActive
-
 }

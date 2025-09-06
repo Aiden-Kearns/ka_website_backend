@@ -1,5 +1,5 @@
 const User = require('../models/users.model');
-const Class = require('../models/classes.model.js');
+const Course = require('../models/courses.model.js');
 const Team = require('../models/team.model.js');
 const Active = require('../models/actives.model.js');
 const asyncHandler = require('express-async-handler');

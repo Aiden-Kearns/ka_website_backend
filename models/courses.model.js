@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const classSchema = mongoose.Schema({
+const courseSchema = mongoose.Schema({
     activeIds: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -9,6 +9,7 @@ const classSchema = mongoose.Schema({
     courseId: {
         type: String,
         required: true,
+        unique: true
     },
     title: {
         type: String,
@@ -19,7 +20,7 @@ const classSchema = mongoose.Schema({
         required: true
     },
     section: {
-        type: Number,
+        type: String,
         required: true
     }
 
@@ -28,6 +29,6 @@ const classSchema = mongoose.Schema({
     timestamps: true
 });
 
-const Class = mongoose.model('Class', classSchema);
+const Course = mongoose.model('Course', courseSchema);
 
-module.exports = Class
+module.exports = Course

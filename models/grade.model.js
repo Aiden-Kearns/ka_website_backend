@@ -6,10 +6,9 @@ const gradeSchema = mongoose.Schema({
         required: true,
         ref: 'Active'
     },
-    classId: {
-        type: mongoose.Schema.Types.ObjectId,
+    courseId: {
+        type: Number,
         required: true,
-        ref: 'Class'
     },
     currentScore: {
         type: Number,
@@ -31,3 +30,5 @@ const gradeSchema = mongoose.Schema({
 });
 
 const Grade = mongoose.model('Grade', gradeSchema);
+
+module.exports = Grade
